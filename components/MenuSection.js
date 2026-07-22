@@ -25,9 +25,36 @@ function MenuItemVisual({ item }) {
   );
 }
 
-export default function MenuSection({ title, note, items }) {
+function AddToCartButton({ item }) {
   const { addItem } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
 
+  function handleClick() {
+    addItem(item);
+    setJustAdded(true);
+    window.setTimeout(() => setJustAdded(false), 1400);
+  }
+
+  return (
+    <button
+      className={`btn btn--outline menu-item__add ${justAdded ? "menu-item__add--added" : ""}`}
+      onClick={handleClick}
+    >
+      {justAdded ? (
+        <>
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5l4 4 8-9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Added
+        </>
+      ) : (
+        "Add to Cart"
+      )}
+    </button>
+  );
+}
+
+export default function MenuSection({ title, note, items }) {
   return (
     <div className="menu-category">
       <div className="menu-category__head">
@@ -49,12 +76,7 @@ export default function MenuSection({ title, note, items }) {
               </div>
               <p>{item.desc}</p>
               {item.purchasable ? (
-                <button
-                  className="btn btn--outline menu-item__add"
-                  onClick={() => addItem(item)}
-                >
-                  Add to Cart
-                </button>
+                <AddToCartButton item={item} />
               ) : (
                 <a href="/contact" className="btn btn--outline menu-item__add">
                   Request a Quote

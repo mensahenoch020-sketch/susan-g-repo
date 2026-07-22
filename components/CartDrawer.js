@@ -5,19 +5,45 @@ import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/menu-data";
 
 export default function CartDrawer() {
-  const { items, removeItem, updateQuantity, subtotal, isOpen, setIsOpen } = useCart();
+  const {
+    items,
+    removeItem,
+    updateQuantity,
+    updateNote,
+    subtotal,
+    isOpen,
+    setIsOpen,
+    fulfillmentMethod,
+    deliveryZip,
+  } = useCart();
   const [checkingOut, setCheckingOut] = useState(false);
   const [error, setError] = useState("");
 
+  const deliveryNotReady = fulfillmentMethod === "delivery" && !deliveryZip;
+
   async function handleCheckout() {
     setError("");
+
+    if (deliveryNotReady) {
+      setError(
+        "Please confirm a valid delivery zip code on the Menu page before checking out, or switch to Pickup."
+      );
+      return;
+    }
+
     setCheckingOut(true);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map((i) => ({ id: i.id, quantity: i.quantity })),
+          items: items.map((i) => ({
+            id: i.id,
+            quantity: i.quantity,
+            note: i.note || "",
+          })),
+          fulfillmentMethod,
+          deliveryZip: fulfillmentMethod === "delivery" ? deliveryZip : "",
         }),
       });
 
@@ -65,6 +91,20 @@ export default function CartDrawer() {
           </div>
         ) : (
           <>
+            <div className="cart-drawer__mode-note">
+              {fulfillmentMethod === "delivery" ? (
+                deliveryZip ? (
+                  <span>Delivery to {deliveryZip}</span>
+                ) : (
+                  <span className="cart-drawer__mode-note--warn">
+                    Delivery selected — confirm your zip code on the Menu page
+                  </span>
+                )
+              ) : (
+                <span>Pickup order</span>
+              )}
+            </div>
+
             <ul className="cart-drawer__list">
               {items.map((item) => (
                 <li className="cart-drawer__item" key={item.id}>
@@ -96,6 +136,15 @@ export default function CartDrawer() {
                   >
                     Remove
                   </button>
+                  <input
+                    type="text"
+                    className="cart-drawer__note"
+                    placeholder="Add a note (e.g. no onions)"
+                    maxLength={200}
+                    value={item.note || ""}
+                    onChange={(e) => updateNote(item.id, e.target.value)}
+                    aria-label={`Special instructions for ${item.name}`}
+                  />
                 </li>
               ))}
             </ul>
@@ -104,6 +153,11 @@ export default function CartDrawer() {
               <span>Subtotal</span>
               <span>{formatPrice(subtotal)}</span>
             </div>
+            {fulfillmentMethod === "delivery" && (
+              <p className="form-note" style={{ marginTop: -8, marginBottom: 12 }}>
+                Delivery fee (if applicable) is calculated at checkout.
+              </p>
+            )}
 
             {error && (
               <p style={{ color: "var(--color-tomato)", fontSize: "0.88rem" }}>{error}</p>

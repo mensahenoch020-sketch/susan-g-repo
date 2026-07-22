@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import siteConfig from "@/lib/site-config";
 import CartButton from "@/components/CartButton";
+import AccountMenu from "@/components/AccountMenu";
 
 const links = [
   { href: "/", label: "Home" },
@@ -30,6 +31,7 @@ export default function Header() {
         </Link>
 
         <div className="header-actions">
+          <AccountMenu />
           <CartButton />
           <button
             className="nav-toggle"
