@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HomeVisual from "@/components/HomeVisual";
+import ScrollReveal from "@/components/ScrollReveal";
 import siteConfig from "@/lib/site-config";
 
 export const metadata = {
@@ -30,6 +31,11 @@ export default function HomePage() {
   return (
     <>
       <section className="hero">
+        <div className="hero__steam" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <div className="hero__inner">
           <div>
             <span className="eyebrow">Southfield, Michigan &middot; Since {siteConfig.startYear}</span>
@@ -90,17 +96,19 @@ export default function HomePage() {
 
       <section className="section">
         <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">What We Offer</span>
-            <h2>Good food, honest service.</h2>
-            <p style={{ color: "rgba(32,27,23,0.7)", fontSize: "1.02rem" }}>
-              Susan G Enterprises brings quality, freshly prepared food
-              directly to customers — whether you&apos;re grabbing a meal for
-              yourself or feeding a crowd at your next event.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="section-head">
+              <span className="eyebrow">What We Offer</span>
+              <h2>Good food, honest service.</h2>
+              <p style={{ color: "rgba(32,27,23,0.7)", fontSize: "1.02rem" }}>
+                Susan G Enterprises brings quality, freshly prepared food
+                directly to customers — whether you&apos;re grabbing a meal for
+                yourself or feeding a crowd at your next event.
+              </p>
+            </div>
+          </ScrollReveal>
 
-          <div className="grid-3">
+          <ScrollReveal className="reveal-stagger grid-3" delay={100}>
             {highlights.map((item) => (
               <div className="feature-card" key={item.title}>
                 <span className="feature-card__num">{item.num}</span>
@@ -108,17 +116,19 @@ export default function HomePage() {
                 <p>{item.body}</p>
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       <section className="section section--cream-alt">
         <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">From the Kitchen</span>
-            <h2>A look at what we serve.</h2>
-          </div>
-          <div className="grid-3">
+          <ScrollReveal>
+            <div className="section-head">
+              <span className="eyebrow">From the Kitchen</span>
+              <h2>A look at what we serve.</h2>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal className="reveal-stagger grid-3" delay={100}>
             <HomeVisual
               variant={1}
               image="/images/hero-prepared-meal.jpg"
@@ -137,7 +147,7 @@ export default function HomePage() {
               alt="An event food spread by Susan G Enterprises"
               label="Event Spread — Photo Coming Soon"
             />
-          </div>
+          </ScrollReveal>
           <div style={{ marginTop: 32 }}>
             <Link href="/menu" className="btn btn--dark">
               See Full Menu
