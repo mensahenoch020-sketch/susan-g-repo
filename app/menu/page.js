@@ -1,7 +1,11 @@
-import MenuSection from "@/components/MenuSection";
+import MenuSearch from "@/components/MenuSearch";
+import DeliveryPickupSelector from "@/components/DeliveryPickupSelector";
+import FirstOrderBanner from "@/components/FirstOrderBanner";
 import {
   preparedMeals,
   foodItems,
+  burgersAndChicken,
+  drinksAndDesserts,
   familyPacks,
   eventServices,
   mobileOfferings,
@@ -10,8 +14,18 @@ import {
 export const metadata = {
   title: "Menu",
   description:
-    "Order prepared meals, food items, and family meal packs from Susan G Enterprises, a mobile food service business in Southfield, Michigan.",
+    "Order prepared meals, burgers, chicken, drinks, and family meal packs from Susan G Enterprises, a mobile food service business in Southfield, Michigan.",
 };
+
+const categories = [
+  { title: "Prepared Meals", note: "Individual Orders", items: preparedMeals },
+  { title: "Burgers & Chicken", note: "Made to Order", items: burgersAndChicken },
+  { title: "Food Items", note: "À La Carte", items: foodItems },
+  { title: "Drinks & Desserts", note: "Add to Any Order", items: drinksAndDesserts },
+  { title: "Family & Group Packs", note: "Feeds 4–6 People", items: familyPacks },
+  { title: "Event Food Services", note: "Custom Packages — Contact for Quote", items: eventServices },
+  { title: "Mobile Food Offerings", note: "How to Order", items: mobileOfferings },
+];
 
 export default function MenuPage() {
   return (
@@ -28,33 +42,16 @@ export default function MenuPage() {
         </div>
       </section>
 
+      <section className="section--tight" style={{ paddingBottom: 0 }}>
+        <div className="wrap">
+          <FirstOrderBanner />
+          <DeliveryPickupSelector />
+        </div>
+      </section>
+
       <section className="section">
         <div className="wrap">
-          <MenuSection
-            title="Prepared Meals"
-            note="Individual Orders"
-            items={preparedMeals}
-          />
-          <MenuSection
-            title="Food Items"
-            note="À La Carte"
-            items={foodItems}
-          />
-          <MenuSection
-            title="Family & Group Packs"
-            note="Feeds 4–6 People"
-            items={familyPacks}
-          />
-          <MenuSection
-            title="Event Food Services"
-            note="Custom Packages — Contact for Quote"
-            items={eventServices}
-          />
-          <MenuSection
-            title="Mobile Food Offerings"
-            note="How to Order"
-            items={mobileOfferings}
-          />
+          <MenuSearch categories={categories} />
 
           <div className="menu-note-box">
             <h3>Menu items and pricing are subject to change.</h3>
