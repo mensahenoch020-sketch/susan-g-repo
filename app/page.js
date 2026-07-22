@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FoodVisual from "@/components/FoodVisual";
+import HomeVisual from "@/components/HomeVisual";
 import siteConfig from "@/lib/site-config";
 
 export const metadata = {
@@ -119,9 +119,24 @@ export default function HomePage() {
             <h2>A look at what we serve.</h2>
           </div>
           <div className="grid-3">
-            <FoodVisual variant={1} label="Prepared Meal — Photo Coming Soon" />
-            <FoodVisual variant={2} label="Signature Item — Photo Coming Soon" />
-            <FoodVisual variant={3} label="Event Spread — Photo Coming Soon" />
+            <HomeVisual
+              variant={1}
+              image="/images/hero-prepared-meal.jpg"
+              alt="A prepared meal from Susan G Enterprises"
+              label="Prepared Meal — Photo Coming Soon"
+            />
+            <HomeVisual
+              variant={2}
+              image="/images/hero-signature-item.jpg"
+              alt="A signature item from Susan G Enterprises"
+              label="Signature Item — Photo Coming Soon"
+            />
+            <HomeVisual
+              variant={3}
+              image="/images/hero-event-spread.jpg"
+              alt="An event food spread by Susan G Enterprises"
+              label="Event Spread — Photo Coming Soon"
+            />
           </div>
           <div style={{ marginTop: 32 }}>
             <Link href="/menu" className="btn btn--dark">
