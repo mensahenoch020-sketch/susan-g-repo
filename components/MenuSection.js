@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import FoodVisual from "@/components/FoodVisual";
+import ScrollReveal from "@/components/ScrollReveal";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/menu-data";
 
@@ -61,7 +62,7 @@ export default function MenuSection({ title, note, items }) {
         <h2>{title}</h2>
         {note && <span className="menu-category__note">{note}</span>}
       </div>
-      <div className="menu-grid">
+      <ScrollReveal className="menu-grid">
         {items.map((item) => (
           <div className="menu-item" key={item.id}>
             <div className="menu-item__visual">
@@ -85,7 +86,7 @@ export default function MenuSection({ title, note, items }) {
             </div>
           </div>
         ))}
-      </div>
+      </ScrollReveal>
     </div>
   );
 }
