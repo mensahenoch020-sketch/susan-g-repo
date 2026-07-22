@@ -1,4 +1,5 @@
 import FoodVisual from "@/components/FoodVisual";
+import ScrollReveal from "@/components/ScrollReveal";
 import siteConfig from "@/lib/site-config";
 
 export const metadata = {
@@ -25,7 +26,7 @@ export default function AboutPage() {
 
       <section className="section">
         <div className="wrap">
-          <div className="contact-grid">
+          <ScrollReveal className="contact-grid">
             <div>
               <span className="eyebrow">Our Story</span>
               <h2>Bringing quality food directly to our neighbors.</h2>
@@ -51,17 +52,19 @@ export default function AboutPage() {
               </p>
             </div>
             <FoodVisual variant={2} label="Susan G Enterprises — Photo Coming Soon" tall />
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       <section className="section section--cream-alt">
         <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">What Guides Us</span>
-            <h2>Our approach to mobile food service.</h2>
-          </div>
-          <div className="grid-3">
+          <ScrollReveal>
+            <div className="section-head">
+              <span className="eyebrow">What Guides Us</span>
+              <h2>Our approach to mobile food service.</h2>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal className="reveal-stagger grid-3" delay={100}>
             <div className="feature-card">
               <span className="feature-card__num">Quality</span>
               <h3>Freshly prepared</h3>
@@ -77,7 +80,7 @@ export default function AboutPage() {
               <h3>Local &amp; personal</h3>
               <p>As a local Southfield business, we value the relationships we build with every customer.</p>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
