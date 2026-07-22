@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FoodHero from "@/components/FoodHero";
 import HomeVisual from "@/components/HomeVisual";
 import ScrollReveal from "@/components/ScrollReveal";
 import siteConfig from "@/lib/site-config";
@@ -30,6 +31,9 @@ const highlights = [
 export default function HomePage() {
   return (
     <>
+      {/* Animated Food Hero Section */}
+      <FoodHero />
+
       <section className="hero">
         <div className="hero__steam" aria-hidden="true">
           <span></span>
