@@ -1,0 +1,42 @@
+// Prisma schema for Susan G Enterprises account system.
+// This defines two tables in your database: Users (for sign up/login)
+// and Orders (for order history, linked to a user and populated after
+// a successful Stripe checkout).
+//
+// See README.md for how to connect a real Postgres database on
+// Railway — this schema does nothing on its own until that's set up.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  phone        String?
+  createdAt    DateTime @default(now())
+  hasOrdered   Boolean  @default(false) // used to gate the first-order delivery fee waiver
+  orders       Order[]
+}
+
+model Order {
+  id                String   @id @default(cuid())
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id])
+  stripeSessionId   String   @unique
+  status            String   @default("pending") // pending | paid | failed
+  fulfillmentMethod String   @default("pickup")  // pickup | delivery
+  deliveryZip       String?
+  itemsJson         String   // JSON string of { name, price, quantity }[]
+  subtotal          Int      // in cents
+  deliveryFee       Int      @default(0) // in cents
+  total             Int      // in cents
+  createdAt         DateTime @default(now())
+}
