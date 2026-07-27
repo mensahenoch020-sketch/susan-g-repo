@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import OrderConfirmationClient from "./OrderConfirmationClient";
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function OrderConfirmationPage() {
-  return <OrderConfirmationClient />;
+  return (
+    <Suspense fallback={null}>
+      <OrderConfirmationClient />
+    </Suspense>
+  );
 }
