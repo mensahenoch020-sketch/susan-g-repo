@@ -76,6 +76,9 @@ export default function LoginPage() {
         <p style={{ marginTop: 20, fontSize: "0.92rem" }}>
           Don&rsquo;t have an account? <Link href="/account/signup">Sign up</Link>
         </p>
+        <p style={{ marginTop: 8, fontSize: "0.92rem" }}>
+          <Link href="/account/forgot-password">Forgot your password?</Link>
+        </p>
       </div>
     </section>
   );
