@@ -58,6 +58,14 @@ export default function AccountMenu() {
           <Link href="/account/orders" onClick={() => setOpen(false)}>
             Order History
           </Link>
+          <Link href="/track" onClick={() => setOpen(false)}>
+            Track an Order
+          </Link>
+          {user.isAdmin && (
+            <Link href="/admin" onClick={() => setOpen(false)}>
+              Admin Dashboard
+            </Link>
+          )}
           <button onClick={() => { logout(); setOpen(false); }}>
             Log Out
           </button>
