@@ -18,7 +18,7 @@ export async function GET() {
       return NextResponse.json({ user: null });
     }
     return NextResponse.json({
-      user: { id: user.id, email: user.email, name: user.name, hasOrdered: user.hasOrdered },
+      user: { id: user.id, email: user.email, name: user.name, hasOrdered: user.hasOrdered, isAdmin: user.isAdmin },
     });
   } catch (err) {
     console.error("Session check error:", err);
