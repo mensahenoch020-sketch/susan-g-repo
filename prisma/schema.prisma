@@ -16,14 +16,17 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String?
-  phone        String?
-  createdAt    DateTime @default(now())
-  hasOrdered   Boolean  @default(false) // used to gate the first-order delivery fee waiver
-  orders       Order[]
+  id                String    @id @default(cuid())
+  email             String    @unique
+  passwordHash      String
+  name              String?
+  phone             String?
+  createdAt         DateTime  @default(now())
+  hasOrdered        Boolean   @default(false) // used to gate the first-order delivery fee waiver
+  isAdmin           Boolean   @default(false) // grants access to /admin dashboard
+  resetToken        String?   @unique
+  resetTokenExpires DateTime?
+  orders            Order[]
 }
 
 model Order {
