@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import prisma from "@/lib/prisma";
+import { isAdminEmail } from "@/lib/admin";
 import {
   verifyPassword,
   createSessionToken,
@@ -24,12 +25,21 @@ export async function POST(request) {
   }
 
   try {
-    const user = await prisma.user.findUnique({ where: { email } });
+    let user = await prisma.user.findUnique({ where: { email } });
 
     // Generic error message on purpose — doesn't reveal whether the
     // email exists, which is a basic account-enumeration protection.
     if (!user || !verifyPassword(password, user.passwordHash)) {
       return NextResponse.json({ error: "Incorrect email or password." }, { status: 401 });
+    }
+
+    // Sync admin status against the ADMIN_EMAILS env var on every login.
+    const shouldBeAdmin = isAdminEmail(user.email);
+    if (shouldBeAdmin !== user.isAdmin) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { isAdmin: shouldBeAdmin },
+      });
     }
 
     const token = createSessionToken(user.id);
@@ -43,7 +53,7 @@ export async function POST(request) {
     });
 
     return NextResponse.json({
-      user: { id: user.id, email: user.email, name: user.name },
+      user: { id: user.id, email: user.email, name: user.name, isAdmin: user.isAdmin },
     });
   } catch (err) {
     console.error("Login error:", err);
